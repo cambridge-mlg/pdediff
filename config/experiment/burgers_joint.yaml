@@ -1,0 +1,59 @@
+# @package _global_
+name: burgers
+
+defaults:
+  - /data: burgers
+  - /net: unet
+  - /score: unet
+  - /sampler: dpm
+
+window: 9
+amortized: false
+noise_std: 0.00
+noise_std_da: 0.0 #0.01
+
+net:
+  hidden_channels: [64,128,256] #[64,128,256,1024]
+  hidden_blocks: [3,3,3] #[3,3,3,3]
+  kernel_size: 3
+  activation: 'SiLU'
+  spatial: ${data.spatial}
+  padding_mode: 'circular'
+
+optim:
+  lr: 2e-4
+  weight_decay: 1e-3
+
+eval:
+  load_model_name: "score_last.pth"
+  init_noise: False
+  guidance:
+    type: "SDA"
+    gamma: 0.1
+    std: 0.01
+  sampling:
+    steps: 128
+    corrections: 0
+    tau: 0.25 #0.1
+  rollout_type: "autoregressive" # autoregressive vs all_at_once
+  conditioning: True
+  task: "forecast"
+  forecast:
+    trajectory_length: 101 # maybe we should call it rollout
+    conditioned_frame: ${eval:'${window} - ${eval.forecast.predictive_horizon}'}
+    predictive_horizon: 3
+    n_samples: 200
+    batch_samples: 1
+    test_batch_size: 100
+  DA:
+    perc_obs: 0.5
+    sparsity: "space-time"
+    init_cond: "all"
+
+# training:
+epochs: 1024
+batch_size: 32
+scheduler_name: 'linear'
+model_type: "noise"
+log_loss_per_level: False
+ema_decay: 0.9999

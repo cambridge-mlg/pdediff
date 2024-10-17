@@ -1,0 +1,7 @@
+_target_: pdediff.sampler.DPM
+name: dpm
+skip_type: linear
+order: 1
+correcting_x0_fn: None
+denoise_to_zero: True
+alg_type: dpmsolver++

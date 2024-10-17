@@ -1,0 +1,12 @@
+_target_: pdediff.nn.oned_unet.Unet
+n_input_scalar_components: 1
+n_input_vector_components: 0 
+n_output_scalar_components: 1
+n_output_vector_components: 0
+hidden_channels: 64
+activation: 'GELU'
+norm: true
+n_dims: 1
+use_scale_shift_norm: true
+time_scale: 1000.0
+padding_mode: "circular"

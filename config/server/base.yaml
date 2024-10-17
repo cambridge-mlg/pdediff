@@ -1,0 +1,31 @@
+# @package _global_
+
+paths:
+  data_dir: ${hydra:runtime.cwd}/data/
+  experiments: results
+  ckpt_dir: ckpt
+  logs_dir: logs
+
+hydra:
+  sweep:
+    dir: ./${paths.experiments}/${name}/${hydra.job.override_dirname}
+    subdir: ${seed}
+  run:
+    dir: ./${paths.experiments}/${name}/${hydra.job.override_dirname}/${seed}
+
+  job_logging:
+    formatters:
+      simple:
+        format: '[%(levelname)s] - %(message)s'
+    handlers:
+      file:
+        filename: run.log
+    root:
+      handlers: [console, file]
+
+  job:
+    chdir: true
+    config:
+      # configuration for the ${hydra.job.override_dirname} runtime variable
+      override_dirname:
+        exclude_keys: [name, experiment, server, seed, resume, num_gpus, val_freq, logger, mode]

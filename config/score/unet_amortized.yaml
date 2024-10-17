@@ -1,0 +1,2 @@
+_target_: pdediff.score.AmortizedScoreUNet
+add_noise: False

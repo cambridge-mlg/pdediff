@@ -1,0 +1,3 @@
+_target_: pdediff.score.AmortizedSpecialScoreUNet
+size: 64
+add_noise: False

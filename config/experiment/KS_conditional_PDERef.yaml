@@ -1,0 +1,57 @@
+
+# @package _global_
+
+name: KS_conditional_unet
+
+defaults:
+  - /data: ks
+  - /net: oned_unet
+  - /score: unet_amortized
+  - /eval_data: ks
+  - /sampler: dpm
+
+window: 9
+amortized: true
+noise_std: 0.0
+noise_std_da: 0.0 #0.01
+
+optim:
+  lr: 2e-4
+  weight_decay: 1e-5
+
+eval:
+  load_model_name: "score_ema.pth"
+  guidance:
+    gamma: 0.1
+    std: 0.01
+    std_init: 0.0
+    std_da: 0.0 #0.01
+    type: "SDA"
+  sampling:
+    steps: 16 #256
+    corrections: 0
+    tau: 0.25 #0.1
+  forecast:
+    conditioned_frame: ${eval:'${window} - ${eval.forecast.predictive_horizon}'}
+    predictive_horizon: 6
+    trajectory_length: 640 # maybe we should call it rollout
+    n_samples: 128
+    test_batch_size: 128
+  task: "forecast"
+  DA:
+    perc_obs: 0.1
+    sparsity: "space-time"
+    init_cond: "all"
+    OOD: False
+    forecast_length: 400
+    step: 20
+    online: False
+
+
+# training:
+epochs: 15000
+batch_size: 128
+scheduler_name: 'cosine'
+model_type: "noise"
+log_loss_per_level: False
+ema_decay: 0.9999

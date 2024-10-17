@@ -1,0 +1,29 @@
+defaults:
+  # GENERAL #
+  - _self_
+
+  - server: local
+  - logger: all
+  - optim: adamw
+  
+  - experiment: KS
+  
+  # enable color logging
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+
+
+PROJECT_NAME: PDEDiff
+
+now: ${now:%Y-%m-%d}/${now:%H-%M-%S}
+resume: false
+mode: all
+seed: 0
+work_dir: ${hydra:runtime.cwd}
+
+# path to folder with data
+data_dir: ${work_dir}/data
+ckpt_dir: ckpt
+logs_dir: logs
+
+logdir: ${work_dir}/results

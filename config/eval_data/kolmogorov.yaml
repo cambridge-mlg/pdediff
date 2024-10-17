@@ -1,0 +1,9 @@
+name: kolmogorov
+path: ${data_dir}/kolmogorov
+spatial: 2
+grid_size: [64,64]
+state_shape: [2,64,64]
+chain:
+  _target_: pdediff.mcs.KolmogorovFlow
+  size: 256
+  dt: 0.2

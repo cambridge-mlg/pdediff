@@ -1,0 +1,6 @@
+_target_: pdediff.sampler.ExpInt
+name: expint
+skip_type: linear
+correcting_x0_fn: None
+denoise_to_zero: True
+alg_type: "dpmsolver++"

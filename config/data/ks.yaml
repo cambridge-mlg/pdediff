@@ -1,0 +1,5 @@
+name: KS
+path: ${data_dir}/KS
+spatial: 1
+grid_size: [256]
+state_shape: [1,256] # TODO: CHECK THIS

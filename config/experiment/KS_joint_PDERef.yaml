@@ -1,0 +1,54 @@
+# @package _global_
+
+name: KS_unet
+
+defaults:
+  - /data: ks
+  - /net: oned_unet
+  - /score: unet
+  - /sampler: dpm
+
+window: 9
+amortized: false
+
+optim:
+  lr: 2e-4
+  weight_decay: 1e-3
+
+eval:
+  load_model_name: "score_last.pth"
+  init_noise: False
+  guidance:
+    type: "SDA"
+    gamma: 0.6
+    gamma1: ${eval.guidance.gamma}
+    std: 0.01
+  sampling:
+    steps: 128 #256
+    corrections: 0
+    tau: 0.25 #0.1
+  rollout_type: 'autoregressive'
+  conditioning: true
+  task: "forecast"
+  forecast:
+    trajectory_length: 640
+    conditioned_frame: ${eval:'${window} - ${eval.forecast.predictive_horizon}'}
+    predictive_horizon: 1
+    n_samples: 50
+    batch_samples: 1
+    test_batch_size: 50
+  DA:
+    perc_obs: 0.1
+    sparsity: "space-time"
+    init_cond: "all"
+    forecast_length: 400
+    step: 20
+    online: False
+
+# training:
+epochs: 2000
+batch_size: 128
+scheduler_name: 'cosine'
+model_type: "noise"
+ema_decay: 0.995
+log_loss_per_level: True

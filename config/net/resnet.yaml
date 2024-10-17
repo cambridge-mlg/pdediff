@@ -1,0 +1,2 @@
+_target_: pdediff.nn.unet.ResMLP
+hidden_features: [256,256,256,256,256]

@@ -1,0 +1,8 @@
+wandb:
+    _target_: pdediff.utils.loggers.WandbLogger
+    save_dir: null
+    name: ${str:${seed}}
+    group: ${name}_${hydra:job.override_dirname}
+    project: pdediff
+    offline: False
+    id: null

@@ -1,0 +1,71 @@
+
+# @package _global_
+
+name: kolmogorov_conditional
+
+defaults:
+  - /data: kolmogorov
+  - /net: unet
+  - /score: unet_forcing_amortized
+  - /eval_data: kolmogorov
+  - /sampler: dpm
+
+window: 5
+amortized: true
+noise_std: 0.00
+noise_std_da: 0.0 #0.01
+
+
+score:
+  embedding: 64
+
+net:
+  hidden_channels: [96, 192, 384]
+  hidden_blocks: [3, 3, 3]
+  kernel_size: 3
+  activation: 'SiLU'
+  spatial: ${data.spatial}
+  padding_mode: 'circular'
+  embedding: 64
+
+optim:
+  lr: 2e-4
+  weight_decay: 1e-5
+
+eval:
+  load_model_name: "score_ema.pth"
+  guidance:
+    gamma: 0.1
+    std: 0.01
+    std_init: 0.0
+    std_da: 0.0 #0.01
+    type: "SDA"
+  sampling:
+    steps: 16 #256
+    # steps: 512
+    corrections: 0
+    tau: 1. #0.1
+  forecast:
+    conditioned_frame: ${eval:'${window} - ${eval.forecast.predictive_horizon}'}
+    predictive_horizon: 4
+    trajectory_length: 64 # maybe we should call it rollout
+    n_samples: 50
+    test_batch_size: 50
+  task: "forecast"
+  DA:
+    perc_obs: 0.1
+    sparsity: "space"
+    init_cond: "all"
+    OOD: False
+    forecast_length: 40
+    step: 5
+    online: False
+
+
+# training:
+epochs: 10000
+batch_size: 32
+scheduler_name: 'cosine'
+model_type: "noise"
+ema_decay: 0.9999
+log_loss_per_level: False

@@ -1,0 +1,5 @@
+name: burgers
+path: ${data_dir}/burgers
+spatial: 1
+grid_size: [128]
+state_shape: [1,128] # TODO: CHECK THIS
