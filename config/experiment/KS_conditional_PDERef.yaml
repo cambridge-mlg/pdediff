@@ -1,7 +1,7 @@
 
 # @package _global_
 
-name: KS_conditional_unet
+name: KS_conditional_PDERef
 
 defaults:
   - /data: ks

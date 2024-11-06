@@ -1,6 +1,6 @@
 # @package _global_
 
-name: KS_unet
+name: KS_joint_PDERef
 
 defaults:
   - /data: ks

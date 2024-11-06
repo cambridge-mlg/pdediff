@@ -30,20 +30,23 @@ from pdediff.mcs import KolmogorovFlow
 def check_experiment_name(name: str, amortized: bool = False):
     if amortized:
         return (
-            name == 'KS_conditional_SDA' or 
-            name == 'burgers_conditional_SDA' or 
-            name == 'kolmogorov_conditional' or 
-            name == 'kolmogorov_conditional_PDERef' or 
-            name == 'kolmogorov_plain_amortized' or
-            name == 'KS_conditional_PDERef'
+                (
+                    ("conditional" in name) or
+                    ("amortized" in name)
+                ) 
+            and 
+                (
+                    ("burgers" in name) or 
+                    ("KS" in name) or 
+                    ("kolmogorov" in name)
+                )
             )
         
-    return (name == 'KS_joint_SDA' or 
-            name == 'burgers_joint' or 
-            name == 'kolmogorov_joint_SDA' or 
-            name =="KS_joint_PDERef" or 
-            name == "kolmogorov_joint_PDERef"
-            )
+    return (
+            ("burgers" in name) or 
+            ("KS" in name) or 
+            ("kolmogorov" in name)
+        )
 
 
 @hydra.main(config_path="config", config_name="main", version_base="1.3.2")

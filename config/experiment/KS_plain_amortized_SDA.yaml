@@ -1,4 +1,4 @@
-name: KS_amortized
+name: KS_plain_amortized_SDA
 
 defaults:
   - /data: ks

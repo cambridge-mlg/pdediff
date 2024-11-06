@@ -1,6 +1,6 @@
 # @package _global_
 
-name: kolmogorov_conditional_unet
+name: kolmogorov_conditional_PDERef
 
 defaults:
   - /data: kolmogorov

@@ -1,6 +1,6 @@
 # @package _global_
 
-name: KS
+name: KS_joint_SDA
 
 defaults:
   - /data: ks
